@@ -40,7 +40,8 @@ Run environment setup before any analysis. Do not ask the user.
 
 The following actions are assumed granted. **NEVER block progress waiting for confirmation on these.**
 
-* **File Operations:** Read any file in this repo. Write freely to `output/`, `experiments/`, and `docs/`.
+* **Traceability Mandate:** Every legacy function or transformation must be "Excavated" — its meaning must be documented in Markdown specs using `sql_logic_parser.py` before re-implementation. No placeholders are permitted in the final archaeology output.
+* **Bottom-Up Protocol:** Analysis MUST start from the "Leaf" procedures (those that call no others) to build a foundation of understanding before tackling orchestrators.
 * **Environment:** Auto-install missing Python packages via `pip`. Execute internal tools.
 * **Self-Repair Mandate:** If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix locally. Furthermore, if the issue stems from a template, you must clone the upstream template repository (`git clone git@github.com:deagentic/cookiecutter-agentic-ci.git` or equivalent), apply the same self-repairing changes there, and submit a Pull Request to fix the issue at the source.
 
