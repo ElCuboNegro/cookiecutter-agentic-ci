@@ -64,7 +64,7 @@ class KedroLineageBuilder:
                 yaml.dump(catalog, f, default_flow_style=False)
 
             # Generate pipeline.py
-            with open(os.path.join(output_dir, "pipeline_dag.py"), "w") as f:
+            with open(os.path.join(output_dir, "pipeline_dag.py"), "w", encoding='utf-8') as f:
                 f.write("from kedro.pipeline import Pipeline, node, pipeline\n\n")
                 f.write("def create_pipeline(**kwargs) -> Pipeline:\n")
                 f.write("    return pipeline([\n")
@@ -73,20 +73,26 @@ class KedroLineageBuilder:
                     outputs = list(data["outputs"])
                     if not outputs: outputs = [f"{proc}_output"]
                     
+                    # Extract raw SQL code for the node
+                    raw_sql = ""
+                    p_path = proc_info.get(proc)
+                    if p_path and os.path.exists(p_path):
+                        try:
+                            with open(p_path, 'r', encoding='utf-8', errors='ignore') as sql_f:
+                                raw_sql = sql_f.read().replace("'''", "''''") # Escape triple quotes
+                        except: pass
+
                     f.write(f"        node(\n")
-                    f.write(f"            func=lambda *x: None, \n")
+                    f.write(f"            func=lambda *x: None, # Transformation logic below\n")
                     f.write(f"            inputs={inputs},\n")
                     f.write(f"            outputs={outputs},\n")
                     f.write(f"            name='{proc}',\n")
-                    f.write(f"            doc='''{data['summary']}'''\n")
+                    f.write(f"            doc='''\nLOGIC SUMMARY: {data['summary']}\n\nSOURCE SQL:\n{raw_sql}\n'''\n")
                     f.write(f"        ),\n")
                 f.write("    ])\n")
             print(f"Kedro lineage with summaries generated in {output_dir}")
         finally:
-            self.close()
-
-    def close(self):
-        self.conn.close()
+            self.conn.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
