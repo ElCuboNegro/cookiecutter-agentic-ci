@@ -49,12 +49,14 @@ When you encounter a problem space so specific or repetitive that it requires a 
 2. **Register the Agent**: Update the central `AGENTS.md` file to list the new agent, its purpose, its trigger conditions, and its expected outputs.
 3. **Commit the Agent**: Stage and commit the new agent to the repository using a message like `feat(agents): create [domain]-specialist for [reason]`.
 
-### 3. For Creating New Tools & Scripts
-When a new generalizable tool or script is needed to support a new language, framework, or domain analysis, **DO NOT write it yourself**. 
-Instead, delegate the task by invoking the **Tool Writer Agent**. Pass your requirements, constraints, and the desired generalizability parameters to the Tool Writer. The Tool Writer will handle:
-1. Writing or merging the tool defensively and cross-platform.
+### 3. For Creating New Tools & Scripts (The "New Stack" Protocol)
+When you encounter a **new stack**, language, framework, or domain that the system does not currently understand, **you MUST NOT try to parse or understand it manually**. 
+Instead, you must immediately create a generalizable set of tools to understand that stack. Delegate the task by invoking the **Tool Writer Agent**. Pass your requirements, constraints, and the desired generalizability parameters to the Tool Writer. The Tool Writer will handle:
+1. Writing or merging the tool defensively and cross-platform (e.g., AST parsers, extractors).
 2. Updating `docs/tools/index.md` with usage instructions and constraints.
 3. Committing and pushing the general tool to the upstream `deagentic` repository.
+
+**Iterative Improvement:** Once the initial toolset is created, you must USE those tools to explore the new stack. As you experiment with the new code and find edge cases or missing features, iteratively invoke the Tool Writer to improve the tools. The tools grow alongside your understanding of the stack.
 
 ### 4. Upstream Knowledge Sharing (Deagentic Auto-Push)
 If the learned pattern, architectural decision, or new sub-agent is generic enough to benefit other projects (a "general agent" or "general knowledge"):

@@ -48,6 +48,10 @@ Use tools like Glob and Grep to identify languages, build systems, and key frame
 - Build files: `CMakeLists.txt`, `package.json`, `Cargo.toml`, etc.
 - Domain APIs: OS-level calls, networking libraries, hardware interfaces.
 
+**NEW STACK MANDATE:** If you detect a technology stack, framework, or language that the agentic system does not currently have specific tools to analyze, you MUST NOT proceed with manual, ad-hoc grepping. Instead:
+1. Immediately invoke the **Tool Writer** to create a generalizable set of tools to parse and understand that specific stack (e.g., AST parsers, dependency extractors).
+2. Iteratively use and improve those tools as you experiment with the new code, feeding the improvements back via the Learning Protocol.
+
 ### Step 2 — Structure mapping
 
 Extract import statements, class definitions, function signatures, and entry points (`main`, `if __name__ == '__main__'`, etc.). Build a module dependency map.
