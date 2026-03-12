@@ -42,7 +42,7 @@ The following actions are assumed granted. **NEVER block progress waiting for co
 
 * **File Operations:** Read any file in this repo. Write freely to `output/`, `experiments/`, and `docs/`.
 * **Environment:** Auto-install missing Python packages via `pip`. Execute internal tools.
-* **Self-Repair Mandate:** If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix.
+* **Self-Repair Mandate:** If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix locally. Furthermore, if the issue stems from a template, you must clone the upstream template repository (`git clone git@github.com:deagentic/cookiecutter-agentic-ci.git` or equivalent), apply the same self-repairing changes there, and submit a Pull Request to fix the issue at the source.
 
 **STOP & ASK PERMISSION ONLY FOR:**
 * Writing outside this repository.
