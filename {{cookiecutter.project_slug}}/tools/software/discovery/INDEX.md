@@ -1,7 +1,17 @@
 # Software Discovery Tools
 
-**All manual discovery scripts have been removed.**
+This directory contains the baseline, general-purpose software analysis tools bundled with the Agentic CI template. These tools are designed to work across any codebase to extract structure, detect languages, and map API usages without hardcoded domain specifics.
 
-As per the **New Stack Mandate** in `AGENTS.md`, any tools required to parse, analyze, or build the executions graph for a specific stack must be dynamically built by the **Tool Writer Agent**. 
+**Any project-specific findings (like a custom hardware protocol byte or proprietary string) extracted by these tools must be logged into `docs/knowledge/` and NEVER hardcoded into these tools.**
 
-When an agent needs to perform software archeology, they must first generate generalizable analysis tools in this directory and iteratively improve them as they learn the new stack. Do not rely on legacy, hardcoded regex parsers.
+## Baseline Tools Included
+
+- **`main.py`**: The universal codebase analysis wrapper (Retro-engineer). Use this to generate a comprehensive execution graph and software map. Outputs markdown, JSON, or Graphviz dot files.
+- **`language_detector.py`**: Detects primary languages and build systems without executing code.
+- **`structure_mapper.py`**: Maps module boundaries, classes, and entry points.
+- **`call_tree.py`**: Builds an execution graph linking entry points to core APIs.
+- **`api_mapper.py`**: Maps external system API calls across the codebase.
+- **`decision_extractor.py`**: Parses hardcoded constants, FIXME/TODO comments, and explicit architectural choices.
+- **`reporter.py`**: Synthesizes output from the above modules into JSON or Markdown.
+
+*If you encounter a new language or stack not supported by these baseline tools, invoke the **Tool Writer Agent** to augment these tools defensively.*
