@@ -26,6 +26,26 @@ def extract_deps_requirements(path):
     except:
         return []
 
+def extract_deps_pom_xml(path):
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            # Simple regex for artifactIds to avoid heavy XML parsing
+            deps = re.findall(r'<artifactId>(.*?)</artifactId>', content)
+            return sorted(list(set(deps)))
+    except:
+        return []
+
+def extract_deps_csproj(path):
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            # Look for PackageReference Include="..."
+            deps = re.findall(r'PackageReference\s+Include="(.*?)"', content)
+            return sorted(list(set(deps)))
+    except:
+        return []
+
 def cluster_projects(target_dir):
     clusters = defaultdict(list)
     
@@ -34,15 +54,20 @@ def cluster_projects(target_dir):
             
         if 'package.json' in files:
             deps = extract_deps_package_json(os.path.join(root, 'package.json'))
-            if deps:
-                sig = 'npm:' + ','.join(deps)
-                clusters[sig].append(root)
+            if deps: clusters['npm:' + ','.join(deps)].append(root)
                 
         if 'requirements.txt' in files:
             deps = extract_deps_requirements(os.path.join(root, 'requirements.txt'))
-            if deps:
-                sig = 'pip:' + ','.join(deps)
-                clusters[sig].append(root)
+            if deps: clusters['pip:' + ','.join(deps)].append(root)
+
+        if 'pom.xml' in files:
+            deps = extract_deps_pom_xml(os.path.join(root, 'pom.xml'))
+            if deps: clusters['maven:' + ','.join(deps)].append(root)
+
+        for f in files:
+            if f.endswith('.csproj'):
+                deps = extract_deps_csproj(os.path.join(root, f))
+                if deps: clusters['nuget:' + ','.join(deps)].append(root)
                 
     return {sig: paths for sig, paths in clusters.items() if len(paths) > 1}
 
