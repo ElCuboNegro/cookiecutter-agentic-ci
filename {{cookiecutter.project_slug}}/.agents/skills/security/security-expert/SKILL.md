@@ -132,7 +132,7 @@ LOW: Best practice deviation (key not zeroed, key in bytes not bytearray)
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. For cryptographic unknowns:
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. For cryptographic unknowns:
 - Check NIST, IETF RFCs, or OWASP
 - Never invent cryptographic constructions — use established, audited ones
 - If unsure: recommend consulting a cryptographer

@@ -45,7 +45,7 @@ When you figure out how a complex subsystem works, discover an undocumented API 
 
 ### 2. For Creating New Sub-Agents
 When you encounter a problem space so specific or repetitive that it requires a dedicated expert (e.g., `usb-hid-specialist`, `legacy-parser-agent`), and you define a set of instructions/skills for it:
-1. **Save the Agent**: Write the agent's definition (including Identity, Input Sources, Protocol, and Output Format) to a new file in the `skills/` directory (e.g., `skills/[domain]-specialist.md`).
+1. **Save the Agent**: Write the agent's definition (including Identity, Input Sources, Protocol, and Output Format) to a new file in the `.agents/skills/` directory (e.g., `.agents/skills/[domain]-specialist.md`).
 2. **Register the Agent**: Update the central `AGENTS.md` file to list the new agent, its purpose, its trigger conditions, and its expected outputs.
 3. **Commit the Agent**: Stage and commit the new agent to the repository using a message like `feat(agents): create [domain]-specialist for [reason]`.
 
@@ -62,7 +62,7 @@ Instead, you must immediately create a generalizable set of tools to understand 
 If the learned pattern, architectural decision, or new sub-agent is generic enough to benefit other projects (a "general agent" or "general knowledge"):
 1. **Document for Upstream**: Document the generic version of the agent or finding in `docs/upstream_contributions/`.
 2. **Auto-Push to Deagentic**: Any updates to general agents MUST be automatically committed and pushed to the `deagentic` repository.
-   - You are required to run the necessary shell commands to pull, update, commit (`feat(agents): update general agent [name]`), and push the generalized skills/agents to the central `deagentic` git repository so they are immediately available globally.
+   - You are required to run the necessary shell commands to pull, update, commit (`feat(agents): update general agent [name]`), and push the generalized .agents/skills/agents to the central `deagentic` git repository so they are immediately available globally.
 
 ---
 
@@ -73,7 +73,7 @@ Whenever the Learning Protocol is invoked, you must append a log entry to `docs/
 ```markdown
 ## [YYYY-MM-DD] Learning: [Short Title]
 - **Trigger**: [What prompted this learning?]
-- **Action Taken**: [Created new agent `skills/xyz.md` | Updated `docs/knowledge/abc.md`]
+- **Action Taken**: [Created new agent `.agents/skills/xyz.md` | Updated `docs/knowledge/abc.md`]
 - **Impact**: [How this helps future tasks or other agents]
 ```
 

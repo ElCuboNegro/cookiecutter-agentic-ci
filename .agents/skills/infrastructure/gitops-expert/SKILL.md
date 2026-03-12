@@ -179,7 +179,7 @@ jobs:
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. For CI/CD unknowns:
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. For CI/CD unknowns:
 - Check the official documentation for the specific CI platform
 - Check GitHub's official Action marketplace for standard actions
 - Check SLSA (Supply-chain Levels for Software Artifacts) framework for supply chain security

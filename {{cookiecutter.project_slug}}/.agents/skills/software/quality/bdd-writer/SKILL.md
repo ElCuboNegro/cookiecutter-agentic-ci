@@ -181,4 +181,4 @@ If the code is obfuscated, incomplete, or ambiguous:
 3. **Add an experiment task**: `# Experiment needed: run experiment_XX.py to confirm`
 4. **Never skip the scenario** — a stub with a comment is better than nothing
 
-Follow `skills/unknown-domain-protocol.md` for deeper unknowns.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md` for deeper unknowns.

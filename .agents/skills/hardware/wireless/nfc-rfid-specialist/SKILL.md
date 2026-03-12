@@ -174,7 +174,7 @@ that is NOT in your knowledge base:
 
 **You must NOT stop or say "unknown".**
 
-Follow the Unknown Domain Protocol: `skills/unknown-domain-protocol.md`
+Follow the Unknown Domain Protocol: `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`
 
 Short version:
 1. **Has a standard number?** (ISO, NFC Forum, IETF) → fetch it, extract structure, save to `knowledge/nfc/`

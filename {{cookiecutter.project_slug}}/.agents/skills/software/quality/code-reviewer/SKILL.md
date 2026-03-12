@@ -197,4 +197,4 @@ If you encounter an unfamiliar API, protocol, or hardware behavior:
 2. Recommend an experiment or reference to resolve the uncertainty
 3. Do not suppress the finding — flag it as `RISK` with `# Confidence: LOW`
 
-Follow `skills/unknown-domain-protocol.md` for deeper unknowns.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md` for deeper unknowns.

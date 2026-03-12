@@ -117,7 +117,7 @@ Flag:
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. Do not halt.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. Do not halt.
 
 1. **Modbus, CANopen, PROFIBUS?** — fetch the spec, decode frame structure
 2. **AT command set?** — find device AT command manual

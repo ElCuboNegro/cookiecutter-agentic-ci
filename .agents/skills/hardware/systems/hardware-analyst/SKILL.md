@@ -42,7 +42,7 @@ Multiple domains may coexist. Invoke ALL relevant specialists.
 ### Step 2 — Specialist Invocation
 
 For each domain detected:
-1. Read the corresponding specialist skill file from `skills/`
+1. Read the corresponding specialist skill file from `.agents/skills/`
 2. Apply the specialist's analysis protocol to the codebase
 3. Collect the specialist's output
 
@@ -81,7 +81,7 @@ encounters a component/protocol outside its knowledge base:
 
 **The rule: no agent stops at "I don't know".**
 
-→ Follow `skills/unknown-domain-protocol.md` — it covers:
+→ Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md` — it covers:
 1. Fetching known standards (ISO, RFC, IEEE, NFC Forum, USB-IF, Bluetooth SIG)
 2. Finding manufacturer datasheets
 3. Running scientific experiments when nothing exists

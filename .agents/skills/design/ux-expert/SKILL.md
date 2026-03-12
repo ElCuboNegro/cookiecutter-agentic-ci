@@ -146,7 +146,7 @@ What to do: [specific next action]
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. For UX unknowns:
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. For UX unknowns:
 - Check platform Human Interface Guidelines (Apple HIG, Microsoft Fluent, GNOME HIG)
 - Check Nielsen Norman Group research
 - When in doubt: ask the user (literally — user testing beats assumptions)

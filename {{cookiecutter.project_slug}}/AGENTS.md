@@ -13,7 +13,7 @@
 {{cookiecutter.project_slug}}/
 ├── CLAUDE.md            <- Claude Code entry point (imports this file)
 ├── AGENTS.md            <- single source of truth for all AI agents
-├── skills/              <- agent skill files
+├── .agents/skills/              <- agent skill files
 ├── tools/               <- project tooling (ADR gate, analysis scripts)
 ├── .github/workflows/   <- CI/CD
 │
@@ -42,6 +42,7 @@ The following actions are assumed granted. **NEVER block progress waiting for co
 
 * **File Operations:** Read any file in this repo. Write freely to `output/`, `experiments/`, and `docs/`.
 * **Environment:** Auto-install missing Python packages via `pip`. Execute internal tools.
+* **Self-Repair Mandate:** If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix.
 
 **STOP & ASK PERMISSION ONLY FOR:**
 * Writing outside this repository.
@@ -62,7 +63,7 @@ knowledge/                    <-  canonical reference docs
 {{cookiecutter.adr_path}}/    <-  open ADR only when a decision is made
 ```
 
-## 6. Agent Skills (`skills/`)
+## 6. Agent Skills (`.agents/skills/`)
 
 | Skill                          | Purpose                                          |
 | ------------------------------ | ------------------------------------------------ |
