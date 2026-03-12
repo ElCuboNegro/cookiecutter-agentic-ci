@@ -16,7 +16,10 @@ def tokenize(text):
     return [text[i:i+n] for i in range(len(text)-n+1)] if len(text) > n else [text]
 
 class CodeIndexer:
-    def __init__(self, db_path="codebase_index.db", num_perm=128):
+    def __init__(self, db_path=None, num_perm=128):
+        if db_path is None:
+            os.makedirs("output/analysis_dbs", exist_ok=True)
+            db_path = "output/analysis_dbs/codebase_index.db"
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self.num_perm = num_perm
@@ -99,7 +102,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Index codebase into SQLite for high-speed analysis.")
     parser.add_argument("path", help="Path to index")
     parser.add_argument("--project", default="default", help="Project label")
-    parser.add_argument("--db", default="codebase_index.db", help="Database path")
+    parser.add_argument("--db", default=None, help="Database path (defaults to output/analysis_dbs/codebase_index.db)")
     
     args = parser.parse_args()
     indexer = CodeIndexer(args.db)

@@ -5,7 +5,10 @@ import argparse
 from pathlib import Path
 
 class SQLProcedureAnalyzer:
-    def __init__(self, db_path="codebase_index.db"):
+    def __init__(self, db_path=None):
+        if db_path is None:
+            os.makedirs("output/analysis_dbs", exist_ok=True)
+            db_path = "output/analysis_dbs/codebase_index.db"
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
         self._setup_db()
@@ -92,7 +95,7 @@ class SQLProcedureAnalyzer:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyze T-SQL stored procedures for dependencies and CRUD logic.")
     parser.add_argument("path", help="Path to SQL files")
-    parser.add_argument("--db", default="codebase_index.db", help="SQLite DB to store results")
+    parser.add_argument("--db", default=None, help="SQLite DB to store results (defaults to output/analysis_dbs/codebase_index.db)")
     
     args = parser.parse_args()
     analyzer = SQLProcedureAnalyzer(args.db)
