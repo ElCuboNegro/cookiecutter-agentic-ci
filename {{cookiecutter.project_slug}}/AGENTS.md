@@ -12,13 +12,13 @@ You are operating within an Agentic CI infrastructure. Your behavior must be hig
 
 Depending on your platform (Gemini, Claude, Cursor), either use the `/activate_skill` tool OR read the corresponding `SKILL.md` file before proceeding:
 
-1. **Reverse Engineering & Analysis**: If asked to reverse engineer, analyze, GENERATE THE EXECUTIONS GRAPH, or BACKTRACK the codebase, you MUST read/activate `.agents/skills/software-archeologist/SKILL.md`.
-2. **Tool Creation**: If you determine a new tool or script is needed, or if instructed to create one, DO NOT write it yourself. You MUST read/activate `.agents/skills/tool-writer/SKILL.md` and delegate the task.
-3. **Architecture**: If asked to design a system, review component boundaries, or make structural trade-offs, you MUST read/activate `.agents/skills/architect/SKILL.md`.
-4. **Behavior Driven Development**: If asked to write Gherkin specs or BACKTRACK TO BDD FEATURE FILES, you MUST read/activate `.agents/skills/bdd-writer/SKILL.md`.
-5. **Decision Logging**: If analyzing code to extract why a hardcoded value or architectural choice was made, read/activate `.agents/skills/decision-logger/SKILL.md`.
-6. **Architecture Decision Records**: If an architectural decision is made or confirmed, read/activate `.agents/skills/adr-writer/SKILL.md` to document it.
-7. **The Learning Protocol**: If you learn a new domain concept, solve a recurring issue, discover a reusable pattern, or create a new generalized sub-agent, you MUST read/activate `.agents/skills/learning-protocol/SKILL.md` and persist the knowledge to the repository.
+1. **Reverse Engineering & Analysis**: If asked to reverse engineer, analyze, GENERATE THE EXECUTIONS GRAPH, or BACKTRACK the codebase, you MUST read/activate `.agents/skills/software/discovery/software-archeologist/SKILL.md`.
+2. **Tool Creation**: If you determine a new tool or script is needed, or if instructed to create one, DO NOT write it yourself. You MUST read/activate `.agents/skills/core/tool-writer/SKILL.md` and delegate the task.
+3. **Architecture**: If asked to design a system, review component boundaries, or make structural trade-offs, you MUST read/activate `.agents/skills/software/architecture/architect/SKILL.md`.
+4. **Behavior Driven Development**: If asked to write Gherkin specs or BACKTRACK TO BDD FEATURE FILES, you MUST read/activate `.agents/skills/software/quality/bdd-writer/SKILL.md`.
+5. **Decision Logging**: If analyzing code to extract why a hardcoded value or architectural choice was made, read/activate `.agents/skills/software/architecture/decision-logger/SKILL.md`.
+6. **Architecture Decision Records**: If an architectural decision is made or confirmed, read/activate `.agents/skills/software/architecture/adr-writer/SKILL.md` to document it.
+7. **The Learning Protocol**: If you learn a new domain concept, solve a recurring issue, discover a reusable pattern, or create a new generalized sub-agent, you MUST read/activate `.agents/skills/core/learning-protocol/SKILL.md` and persist the knowledge to the repository.
 
 ## 3. DEDUPLICATION MANDATE
 Before writing any new tool, script, or proposing a new agent, you MUST consult this `AGENTS.md` and `docs/tools/index.md`. Reuse and refine existing capabilities. If merging two similar tools, keep the CLI contract compatible.
@@ -54,3 +54,4 @@ This applies to any file in `{{cookiecutter.library_path}}/{{cookiecutter.packag
 1. **Discovery** -- identify the design decision or integration change needed
 2. **Write the ADR** -- create `{{cookiecutter.adr_path}}/ADR-NNNN-<decision-title>.md`
 3. **Then write the code** -- commit the ADR and the code change together
+
