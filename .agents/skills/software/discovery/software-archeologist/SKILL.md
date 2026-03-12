@@ -39,6 +39,14 @@ discovery → FINDINGS.md → context/ → knowledge/ → ADR (only for decision
 
 ---
 
+## The General vs. Specific Knowledge Split (MANDATORY)
+
+You must strictly separate **HOW** you analyze from **WHAT** you find:
+1. **General Capabilities (Tools):** Any script, parser, or extractor you need to understand the codebase MUST be completely generalized, abstracted from the specific project, and saved into `tools/`. These tools are meant to be pushed upstream to the cookiecutter template to benefit all future developers. Never hardcode project-specific paths or names in tools.
+2. **Project-Specific Knowledge (Findings):** The actual quirks, API usage, hardcoded constants, and protocol implementations you discover MUST be saved as Markdown files strictly in `docs/knowledge/` (or `docs/findings/`). This knowledge is highly specific to the software piece being analyzed and belongs exclusively to the local project.
+
+---
+
 ## Execution Steps
 
 ### Step 1 — Technology detection
@@ -49,7 +57,7 @@ Use tools like Glob and Grep to identify languages, build systems, and key frame
 - Domain APIs: OS-level calls, networking libraries, hardware interfaces.
 
 **NEW STACK MANDATE:** If you detect a technology stack, framework, or language that the agentic system does not currently have specific tools to analyze, you MUST NOT proceed with manual, ad-hoc grepping. Instead:
-1. Immediately invoke the **Tool Writer** to create a generalizable set of tools to parse and understand that specific stack (e.g., AST parsers, dependency extractors).
+1. Immediately invoke the **Tool Writer** to create a completely generalizable set of tools to parse and understand that specific stack (e.g., AST parsers, dependency extractors). These tools will become part of the upstream cookiecutter.
 2. Iteratively use and improve those tools as you experiment with the new code, feeding the improvements back via the Learning Protocol.
 
 ### Step 2 — Structure mapping

@@ -37,11 +37,11 @@ Before initiating the creation of any new sub-agent or tool:
 **If two tools or agents are too similar, MERGE them into a single, more capable version. When merging, you MUST keep all existing contracts (command-line arguments, input/output formats) strictly compatible so that no existing agent workflows are broken.** 
 Only proceed to the steps below if you are filling a genuine gap in the repository's collective intelligence.
 
-### 1. For New Domain Knowledge or Reusable Patterns
-When you figure out how a complex subsystem works, discover an undocumented API quirk, or establish a convention that other agents should follow:
-1. **Document it**: Create or update a targeted Markdown file in `docs/knowledge/` or `context/` with your specific findings.
+### 1. For New Domain Knowledge or Reusable Patterns (Project-Specific)
+When you figure out how a complex subsystem works, discover an undocumented API quirk, or establish a convention that other agents should follow **within this specific project**:
+1. **Document it**: Create or update a targeted Markdown file in `docs/knowledge/` or `context/` with your specific findings. This knowledge is bound to the current project and should never be hardcoded into general tools.
 2. **Update the Context**: If the knowledge is critical for future agent executions, add a concise summary to `AGENTS.md` or the relevant domain context file (e.g., `context/[domain]/run_context.md`).
-3. **Commit the Learning**: Stage and commit these changes immediately. Use a semantic commit message starting with `docs(learning): ...` to indicate that the repository's knowledge base has expanded.
+3. **Commit the Learning**: Stage and commit these changes immediately. Use a semantic commit message starting with `docs(learning): ...` to indicate that the repository's local knowledge base has expanded.
 
 ### 2. For Creating New Sub-Agents
 When you encounter a problem space so specific or repetitive that it requires a dedicated expert (e.g., `usb-hid-specialist`, `legacy-parser-agent`), and you define a set of instructions/skills for it:
