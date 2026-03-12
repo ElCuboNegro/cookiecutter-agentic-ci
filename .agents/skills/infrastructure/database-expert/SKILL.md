@@ -107,7 +107,7 @@ SQLite is used for `~/.keystone/vaults.json` (currently plain JSON — may migra
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. For database unknowns:
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. For database unknowns:
 - Check the official documentation of the specific database engine
 - Check `use-the-index-luke.com` for index and query plan questions
 - Benchmark before optimizing — don't assume, measure

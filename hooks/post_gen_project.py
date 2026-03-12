@@ -36,4 +36,4 @@ if __name__ == "__main__":
     print("\nProject generated successfully!")
     print("  cd {{ cookiecutter.project_slug }}")
     print("  Open docs/adr/index.md — write ADR-0001 before any code.")
-    print("  Copy skills/*.md to ~/.claude/skills/ to install agent skills globally.")
+    print("  Copy .agents/skills/*.md to ~/.claude/.agents/skills/ to install agent skills globally.")

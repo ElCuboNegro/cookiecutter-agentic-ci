@@ -124,7 +124,7 @@ Flag:
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. Do not halt.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. Do not halt.
 
 1. **Standard GATT service UUID?** — fetch Bluetooth SIG GATT spec, decode
 2. **Vendor UUID?** — search manufacturer SDK/documentation

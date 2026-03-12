@@ -123,5 +123,5 @@ For every significant finding, recommend whether an ADR should be created or upd
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. Never speculate — if you're unsure about
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. Never speculate — if you're unsure about
 a technology choice, say so explicitly and recommend an experiment or proof of concept.

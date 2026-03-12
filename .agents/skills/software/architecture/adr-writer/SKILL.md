@@ -265,7 +265,7 @@ If you cannot fill a section of the ADR:
    ```
 4. Never block — a partial ADR is better than no ADR
 
-Follow `skills/unknown-domain-protocol.md` for systematic investigation of unknowns.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md` for systematic investigation of unknowns.
 
 ---
 

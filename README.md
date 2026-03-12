@@ -9,7 +9,7 @@ with a complete **agentic CI/CD infrastructure** and **ADR-first mandate**.
 |-----------|----------|---------|
 | `AGENTS.md` | repo root | Single source of truth for all AI agents |
 | `CLAUDE.md` | repo root | Claude Code entry point (imports AGENTS.md) |
-| `skills/` | repo root | 5 cross-cutting agent skills |
+| `.agents/skills/` | repo root | 5 cross-cutting agent skills |
 | `.github/workflows/ci.yml` | workflows | ADR gate + test job |
 | `docs/adr/index.md` | repo | ADR index (start here) |
 | `tools/check_adr_gate.py` | repo | ADR enforcement gate script |
@@ -44,7 +44,7 @@ cookiecutter path/to/cookiecutter-agentic-ci
 ## After generation
 
 1. `cd {{project_slug}}`
-2. Copy `skills/*.md` to `~/.claude/skills/` to install agent skills globally
+2. Copy `.agents/skills/*.md` to `~/.claude/.agents/skills/` to install agent skills globally
 3. Open `docs/adr/index.md` -- write ADR-0001 before any code
 4. Push to GitHub -- the ADR gate runs automatically on every PR
 

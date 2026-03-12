@@ -211,4 +211,4 @@ If you cannot infer why a decision was made:
 3. **Write**: `# Inferred: [best guess] — NOT CONFIRMED`
 4. **Never omit it** — an unexplained decision is more dangerous than an annotated unknown
 
-Follow `skills/unknown-domain-protocol.md` for systematic investigation.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md` for systematic investigation.

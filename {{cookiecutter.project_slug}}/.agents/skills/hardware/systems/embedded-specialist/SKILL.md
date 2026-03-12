@@ -136,7 +136,7 @@ If RTOS is used:
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. Do not halt.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. Do not halt.
 
 1. **Unknown chip / peripheral?** — find manufacturer datasheet, extract register map
 2. **Unknown RTOS?** — fetch its documentation, map primitives to known equivalents

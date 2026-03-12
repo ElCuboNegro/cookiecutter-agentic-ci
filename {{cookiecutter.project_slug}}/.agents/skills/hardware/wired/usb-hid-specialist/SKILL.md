@@ -151,7 +151,7 @@ Trace device detection:
 
 ## When You Don't Know Something
 
-Follow `skills/unknown-domain-protocol.md`. Do not halt.
+Follow `.agents/skills/software/discovery/unknown-domain-protocol/SKILL.md`. Do not halt.
 
 1. **Known USB class?** (HID, CCID, Audio, CDC...) — fetch USB-IF spec, extract protocol
 2. **Vendor-specific protocol?** — find device datasheet/SDK, reverse from transfers

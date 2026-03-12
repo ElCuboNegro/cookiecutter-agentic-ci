@@ -19,6 +19,7 @@ Depending on your platform (Gemini, Claude, Cursor), either use the `/activate_s
 5. **Decision Logging**: If analyzing code to extract why a hardcoded value or architectural choice was made, read/activate `.agents/skills/software/architecture/decision-logger/SKILL.md`.
 6. **Architecture Decision Records**: If an architectural decision is made or confirmed, read/activate `.agents/skills/software/architecture/adr-writer/SKILL.md` to document it.
 7. **The Learning Protocol**: If you learn a new domain concept, solve a recurring issue, discover a reusable pattern, or create a new generalized sub-agent, you MUST read/activate `.agents/skills/core/learning-protocol/SKILL.md` and persist the knowledge to the repository.
+8. **Self-Repair Mandate**: If you detect any discrepancies in agent documentation or configurations (e.g., outdated file paths pointing to `skills/` instead of `.agents/skills/`), you must self-repair them by fixing the references across the workspace and committing the fix locally. Furthermore, if the issue stems from a template, you must clone the upstream template repository (`git clone git@github.com:deagentic/cookiecutter-agentic-ci.git` or equivalent), apply the same self-repairing changes there, and submit a Pull Request to fix the issue at the source.
 
 ## 3. DEDUPLICATION MANDATE
 Before writing any new tool, script, or proposing a new agent, you MUST consult this `AGENTS.md` and `docs/tools/index.md`. Reuse and refine existing capabilities. If merging two similar tools, keep the CLI contract compatible.
