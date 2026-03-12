@@ -7,28 +7,46 @@
 * **Description:** {{cookiecutter.description}}
 * **Core Objective:** Understand, document, build, and evolve this codebase with full traceability.
 
-## 2. Core Routing Directives
-You are operating within an Agentic CI infrastructure. Your behavior must be highly structured and strictly delegated to specialized sub-agents. All agent skills and instructions are located in `.agents/skills/`.
+## 2. Repository Layout
 
-Depending on your platform (Gemini, Claude, Cursor), either use the `/activate_skill` tool OR read the corresponding `SKILL.md` file before proceeding:
+```
+{{cookiecutter.project_slug}}/
+├── CLAUDE.md            <- Claude Code entry point (imports this file)
+├── AGENTS.md            <- single source of truth for all AI agents
+├── skills/              <- agent skill files
+├── tools/               <- project tooling (ADR gate, analysis scripts)
+├── .github/workflows/   <- CI/CD
+│
+├── {{cookiecutter.library_path}}/           <- LIBRARY
+│   ├── {{cookiecutter.package_name}}/       <- Python package
+│   ├── tests/
+│   ├── pyproject.toml
+│   └── README.md
+│
+└── {{cookiecutter.adr_path}}/               <- ARCHITECTURE DECISIONS
+    └── index.md
+```
 
-1. **Reverse Engineering & Analysis**: If asked to reverse engineer, analyze, GENERATE THE EXECUTIONS GRAPH, or BACKTRACK the codebase, you MUST read/activate `.agents/skills/software/discovery/software-archeologist/SKILL.md`.
-2. **Tool Creation**: If you determine a new tool or script is needed, or if instructed to create one, DO NOT write it yourself. You MUST read/activate `.agents/skills/core/tool-writer/SKILL.md` and delegate the task.
-3. **Architecture**: If asked to design a system, review component boundaries, or make structural trade-offs, you MUST read/activate `.agents/skills/software/architecture/architect/SKILL.md`.
-4. **Behavior Driven Development**: If asked to write Gherkin specs or BACKTRACK TO BDD FEATURE FILES, you MUST read/activate `.agents/skills/software/quality/bdd-writer/SKILL.md`.
-5. **Decision Logging**: If analyzing code to extract why a hardcoded value or architectural choice was made, read/activate `.agents/skills/software/architecture/decision-logger/SKILL.md`.
-6. **Architecture Decision Records**: If an architectural decision is made or confirmed, read/activate `.agents/skills/software/architecture/adr-writer/SKILL.md` to document it.
-7. **The Learning Protocol**: If you learn a new domain concept, solve a recurring issue, discover a reusable pattern, or create a new generalized sub-agent, you MUST read/activate `.agents/skills/core/learning-protocol/SKILL.md` and persist the knowledge to the repository.
-
-## 3. DEDUPLICATION MANDATE
-Before writing any new tool, script, or proposing a new agent, you MUST consult this `AGENTS.md` and `docs/tools/index.md`. Reuse and refine existing capabilities. If merging two similar tools, keep the CLI contract compatible.
-
-## 4. Initialization & Setup
+## 3. Initialization & Setup
 
 Run environment setup before any analysis. Do not ask the user.
+
 * **Windows:** `setup\install.bat`
 * **Linux / macOS:** `bash setup/install.sh`
+
 **Setup Failure Protocol:** Run setup silently. Continue with available tools and note gaps.
+
+## 4. Execution Directives & Permissions
+
+The following actions are assumed granted. **NEVER block progress waiting for confirmation on these.**
+
+* **File Operations:** Read any file in this repo. Write freely to `output/`, `experiments/`, and `docs/`.
+* **Environment:** Auto-install missing Python packages via `pip`. Execute internal tools.
+
+**STOP & ASK PERMISSION ONLY FOR:**
+* Writing outside this repository.
+* Modifying system configurations.
+* Executing destructive write-operations to hardware or external services.
 
 ## 5. Context & Knowledge Management
 
@@ -44,14 +62,83 @@ knowledge/                    <-  canonical reference docs
 {{cookiecutter.adr_path}}/    <-  open ADR only when a decision is made
 ```
 
-## 6. ADR-First Mandate
+## 6. Agent Skills (`skills/`)
+
+| Skill                          | Purpose                                          |
+| ------------------------------ | ------------------------------------------------ |
+| [[architect]].md               | System design, component boundaries, ADR-first   |
+| [[code-reviewer]].md           | Code quality, security, ADR coverage check       |
+| [[adr-writer]].md              | Write and maintain Architecture Decision Records |
+| [[decision-logger]].md         | Extract decisions embedded in code               |
+| [[unknown-domain-protocol]].md | What to do when encountering something unknown   |
+
+## 7. Role Separation
+
+| Role                 | Skill              | Handles                                     |
+| -------------------- | ------------------ | ------------------------------------------- |
+| **[[Archeologist]]** | domain specialists | Reading, probing, documenting existing code |
+| **[[Architect]]**    | `architect`        | Designing and writing NEW code              |
+| **[[Reviewer]]**     | `code-reviewer`    | Reviewing all changes before merge          |
+
+## 8. Output Standards
+
+* `output/findings/FINDINGS.md` -- archaeology ledger (update on every finding)
+* `output/probe_results.json` -- hardware/system probe output
+* `output/retro-report.md` -- codebase analysis report
+
+## 9. Layer Separation
+
+| Layer | Location | What it is |
+|-------|----------|------------|
+| **Library** | `{{cookiecutter.library_path}}/` | Reusable package |
+| **Experiment** | `experiments/` | Isolated probes to test behavior |
+
+Rules:
+* Libraries must be importable independently
+* Install with `pip install -e "{{cookiecutter.library_path}}/.[extras]"` from repo root
+* Every component must have its own ADR trail
+
+## 10. Experiment Isolation
+
+All code executions for testing behavior run in Docker containers.
+
+* Experiment Dockerfiles live in `experiments/docker/`
+* Results are written to `output/` via volume mounts
+* Exception: hardware experiments may run natively when Docker cannot pass through the device
+
+## 11. ADR-First Mandate
 
 **HARD STOP. No exceptions. No bypasses except trivial fixes.**
+
 > **You must write an ADR before changing any library source code.**
 
-This applies to any file in `{{cookiecutter.library_path}}/{{cookiecutter.package_name}}/*.py` or any new library module added to `{{cookiecutter.library_path}}/`.
+This applies to:
+- Any file in `{{cookiecutter.library_path}}/{{cookiecutter.package_name}}/*.py`
+- Any new library module added to `{{cookiecutter.library_path}}/`
+
+### The rule
 
 1. **Discovery** -- identify the design decision or integration change needed
 2. **Write the ADR** -- create `{{cookiecutter.adr_path}}/ADR-NNNN-<decision-title>.md`
+   - Next sequence number from `{{cookiecutter.adr_path}}/index.md`
+   - Document: context, considered options, decision, positive/negative consequences
+   - Include `Implementation: {{cookiecutter.library_path}}/...` link
+   - Add to `{{cookiecutter.adr_path}}/index.md`
 3. **Then write the code** -- commit the ADR and the code change together
 
+### CI enforcement
+
+`tools/check_adr_gate.py` runs on every push and PR.
+It exits 1 (blocks merge) if library files change without a new `ADR-*.md`.
+
+**Bypass** (trivial fixes only): add `[skip-adr]` to the commit message.
+
+### Decision table
+
+| Requires ADR | `[skip-adr]` OK |
+|---|---|
+| New public API | Typo fix in docstring |
+| Changed behavior of existing API | Comment clarification |
+| New cryptographic primitive | Test addition for existing behavior |
+| New threading model | Dependency version bump |
+| Any breaking change | Lint/format fix |

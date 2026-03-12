@@ -31,13 +31,14 @@ Your primary responsibility is to ensure that any new capability added to the re
 ### Phase 1 — Architectural Review & ADR (MANDATORY)
 Before writing any code for a new tool, OR making any changes to an existing tool, you MUST consult the **Architect Agent**.
 1. Propose the tool's design (or the proposed change), boundaries, and CLI contract to the Architect.
-2. The Architect will review the design or modification against the system architecture.
-3. Once approved, you MUST create a new Architecture Decision Record (ADR) detailing the design decisions or changes. **For every single change made to a tool, a new ADR must be written.** Store it strictly in `tools/[tool name]/ADR/[adrnumber]_[name]_adr.md`.
+2. Determine the correct domain path for the tool (e.g., `software/discovery`, `hardware/wireless`, `infrastructure`).
+3. The Architect will review the design or modification against the system architecture.
+4. Once approved, you MUST create a new Architecture Decision Record (ADR) detailing the design decisions or changes. **For every single change made to a tool, a new ADR must be written.** Store it strictly in `tools/[domain]/[subdomain]/[tool name]/ADR/[adrnumber]_[name]_adr.md`.
 
 ### Phase 2 — Write, Update, or Merge the Tool
-1. **Develop/Refine**: Write or update the script in its dedicated directory: `tools/[tool name]/`. Ensure it takes parameterized arguments and uses cross-platform libraries. 
-2. **Testing (MANDATORY)**: Every tool MUST have its own suite of tests located within its directory (e.g., `tools/[tool name]/tests/`). You must write tests that cover the happy path, edge cases, and ensure the CLI contract is upheld before committing.
-3. **Merge if Necessary**: If a similar tool exists, update it rather than creating a new file. Ensure the CLI contract remains backward compatible. Remember: even merges require a new ADR in Phase 1 and updated tests.
+1. **Develop/Refine**: Write or update the script in its dedicated domain directory: `tools/[domain]/[subdomain]/[tool name]/`. Ensure it takes parameterized arguments and uses cross-platform libraries. 
+2. **Testing (MANDATORY)**: Every tool MUST have its own suite of tests located within its directory (e.g., `tools/[domain]/[subdomain]/[tool name]/tests/`). You must write tests that cover the happy path, edge cases, and ensure the CLI contract is upheld before committing.
+3. **Merge if Necessary**: If a similar tool exists in the domain, update it rather than creating a new file. Ensure the CLI contract remains backward compatible. Remember: even merges require a new ADR in Phase 1 and updated tests.
 
 ### Phase 3 — Update the Tool Index
 You MUST document the new or updated tool in the central Tool Index (`docs/tools/index.md`). For each tool, the entry must provide:
