@@ -101,7 +101,7 @@ environment: production
 - uses: actions/cache@v4
   with:
     path: ~/.cache/pip
-    key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+    key: {% raw %}${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}{% endraw %}
 ```
 
 ---
