@@ -2,54 +2,60 @@ import sqlite3
 import yaml
 import argparse
 import os
+import re
 from pathlib import Path
+
+def summarize_sql(content):
+    content_upper = content.upper()
+    if "TRUNCATE TABLE" in content_upper and "INSERT INTO" in content_upper:
+        return "Full Refresh: Clears and repopulates target table."
+    if "MERGE INTO" in content_upper:
+        return "Upsert: Synchronizes source and target data."
+    if "INSERT INTO" in content_upper and "SELECT" in content_upper:
+        return "Data Transfer: Transformation and ingestion into target table."
+    return "Data Retrieval: Pure query or view definition."
 
 class KedroLineageBuilder:
     def __init__(self, db_path):
         self.conn = sqlite3.connect(db_path)
         self.cursor = self.conn.cursor()
 
-    def get_lineage(self):
-        # 1. Get all nodes (Procedures)
-        self.cursor.execute("SELECT DISTINCT proc_name, path FROM sql_metrics")
-        nodes = {row[0]: row[1] for row in self.cursor.fetchall()}
-
-        # Actually, let's just query dependencies
-        self.cursor.execute("""
-            SELECT caller_path, dependency_name, direction 
-            FROM sql_dependencies 
-            WHERE dependency_type = 'TABLE/VIEW'
-        """)
-        return self.cursor.fetchall()
-
-    def close(self):
-        self.conn.close()
-
     def build(self, output_dir):
         try:
             os.makedirs(output_dir, exist_ok=True)
-            
-            # Mapping: Proc -> {inputs: [], outputs: []}
             pipeline_map = {}
             catalog = {}
 
             self.cursor.execute("SELECT path, proc_name FROM sql_metrics")
-            proc_lookup = {row[0]: row[1] for row in self.cursor.fetchall()}
+            rows = self.cursor.fetchall()
+            proc_info = {row[1]: row[0] for row in rows}
+
+            for proc_name, proc_path in proc_info.items():
+                logic_summary = "Procedural Logic"
+                try:
+                    with open(proc_path, 'r', encoding='utf-8', errors='ignore') as f:
+                        logic_summary = summarize_sql(f.read())
+                except: pass
+
+                if proc_name not in pipeline_map:
+                    pipeline_map[proc_name] = {"inputs": set(), "outputs": set(), "summary": logic_summary}
 
             self.cursor.execute("SELECT caller_path, dependency_name, direction FROM sql_dependencies WHERE dependency_type = 'TABLE/VIEW'")
             for caller_path, dep_name, direction in self.cursor.fetchall():
-                proc_name = proc_lookup.get(caller_path, caller_path)
-                if proc_name not in pipeline_map:
-                    pipeline_map[proc_name] = {"inputs": set(), "outputs": set()}
+                # reverse lookup proc_name
+                p_name = next((name for name, path in proc_info.items() if path == caller_path), caller_path)
                 
+                if p_name not in pipeline_map:
+                    pipeline_map[p_name] = {"inputs": set(), "outputs": set(), "summary": "Unknown"}
+
                 clean_dep = dep_name.replace('[', '').replace(']', '').replace('.', '_')
                 if direction == 'INPUT':
-                    pipeline_map[proc_name]["inputs"].add(clean_dep)
+                    pipeline_map[p_name]["inputs"].add(clean_dep)
                 else:
-                    pipeline_map[proc_name]["outputs"].add(clean_dep)
+                    pipeline_map[p_name]["outputs"].add(clean_dep)
                 
                 catalog[clean_dep] = {
-                    "type": "pandas.CSVDataset", # Default placeholder
+                    "type": "pandas.CSVDataset",
                     "filepath": f"data/01_raw/{clean_dep}.csv"
                 }
 
@@ -57,27 +63,30 @@ class KedroLineageBuilder:
             with open(os.path.join(output_dir, "catalog.yml"), "w") as f:
                 yaml.dump(catalog, f, default_flow_style=False)
 
-            # Generate pipeline.py (Simplified string representation)
+            # Generate pipeline.py
             with open(os.path.join(output_dir, "pipeline_dag.py"), "w") as f:
                 f.write("from kedro.pipeline import Pipeline, node, pipeline\n\n")
                 f.write("def create_pipeline(**kwargs) -> Pipeline:\n")
                 f.write("    return pipeline([\n")
-                for proc, io in pipeline_map.items():
-                    inputs = list(io["inputs"])
-                    outputs = list(io["outputs"])
+                for proc, data in pipeline_map.items():
+                    inputs = list(data["inputs"])
+                    outputs = list(data["outputs"])
                     if not outputs: outputs = [f"{proc}_output"]
                     
                     f.write(f"        node(\n")
-                    f.write(f"            func=lambda *x: None, # Placeholder for {proc}\n")
+                    f.write(f"            func=lambda *x: None, \n")
                     f.write(f"            inputs={inputs},\n")
                     f.write(f"            outputs={outputs},\n")
-                    f.write(f"            name='{proc}'\n")
+                    f.write(f"            name='{proc}',\n")
+                    f.write(f"            doc='''{data['summary']}'''\n")
                     f.write(f"        ),\n")
                 f.write("    ])\n")
-
-            print(f"Kedro lineage generated in {output_dir}")
+            print(f"Kedro lineage with summaries generated in {output_dir}")
         finally:
             self.close()
+
+    def close(self):
+        self.conn.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
